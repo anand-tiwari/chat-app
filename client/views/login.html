@@ -1,0 +1,19 @@
+<div class="container">
+<form name="form.loginForm" ng-submit="loginFun()" novalidate>
+        <!-- NAME -->
+        <div class="form-group">
+            <label>User Name</label>
+            <input type="text" name="userName" class="form-control" ng-model="login.userName" required>
+            <p ng-show="form.loginForm.userName.$invalid && !form.loginForm.userName.$pristine" 
+                class="help-block">You username is required.</p>
+        </div>
+        <!-- password -->
+        <div class="form-group">
+            <label>Password</label>
+            <input type="text" name="passWord" class="form-control" ng-model="login.passWord" required>
+            <p ng-show="form.studentForm.passWord.$invalid && !form.studentForm.passWord.$pristine" 
+                class="help-block">You passWord is required.</p>
+        </div>
+    <button type="submit" class="btn btn-primary" ng-disabled="form.loginForm.$invalid">login</button>
+</form>
+</div>
