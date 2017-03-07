@@ -1,15 +1,20 @@
-var express           = require('express'),
-    app               = express();
-    bodyParser        = require('body-parser');
+var express       = require('express'),
+	session 	  = require('express-session'),
+    app           = express();
+    bodyParser    = require('body-parser'),
+    ObjectId 	  = require('mongodb').ObjectID,
+    MongoClient   = require('mongodb').MongoClient,
+    port 		  = process.argv[2] || 8888,
+    server 		  = require('http').Server(app),
+    io 			  = require('socket.io')(server);
+
    // serverController = require('./server/controllers/servercontroller');
-const MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectID;
-var port = process.argv[2] || 8888;
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var sess;
+
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser());
+app.use(session({secret: 'ssshhhhh'}));
 
 server.listen(port, function(){
 	console.log("server listening on: http://localhost:%s",port);
@@ -29,7 +34,7 @@ app.get('/api/home', function(req, res){
 });
 */
 app.get('/*', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+ 	res.sendFile(__dirname + '/index.html');
 });
 
 var usernames = {};
@@ -51,7 +56,7 @@ io.sockets.on('connection', function (socket) {
             socket.emit('updatechat', 'SERVER', 'Please enter valid code.');
         }
     });
-     
+    
     socket.on('createroom', function (data) {
         var new_room = ("" + Math.random()).substring(2, 7);
         rooms.push(new_room);
@@ -61,6 +66,7 @@ io.sockets.on('connection', function (socket) {
     });
  
     socket.on('sendchat', function (data) {
+    	console.log("data",data, "socket.room",socket.room);
         io.sockets.in(socket.room).emit('updatechat', socket.username, data);
     });
  

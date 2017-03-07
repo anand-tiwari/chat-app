@@ -1,5 +1,12 @@
 app.controller('appController', function ($scope, $resource, $http, $state, $rootScope, socket, Facebook) {
-	
+
+	$scope.setSelected = function(prop){
+		$scope.selectedprop = prop;
+	};
+
+  	$scope.props = [{name: "rahul"},{name: "hemant"},{name: "piyush"}];
+  	$rootScope.authenticated = true;
+
 	$scope.initiate = function(){
 		$http.get('/api/home')
 		.success(function(data) {
@@ -46,8 +53,8 @@ app.controller('appController', function ($scope, $resource, $http, $state, $roo
 		socket.emit('adduser', data);
 	}
 
-	$scope.doPost = function (message) {
+	$scope.sendMessage = function (message) {
 		socket.emit('sendchat', message);
-	}
-
+		$scope.message = "";
+	};
 });

@@ -1,5 +1,39 @@
 <div>
-  <button ng-click="logout()">facebook logout</button>
+  <div class="col-lg-3 left-side">
+    <ul class="user-list">
+     <li ng-repeat="prop in props" ng-click="setSelected(prop)" ng-class="{selected: prop == selectedprop}" ng-cloak="">{{prop.name}}</li>
+    </ul>
+  </div>
+  <div class="col-lg-9 right-side">
+      <div class="main-content">
+        <div class="main-header">
+          <div class="left">
+            <h2>{{selectedprop.name}}</h2>
+          </div>
+          <div class="right">
+            <input class="search" type="search" placeholder="Search...">
+        </div>
+      </div>
+      <div class="message-list">
+        <div ng-repeat="messageContent in messages" class="message-item {{messageContent.type}}">
+          <avatar user="messageContent.user" ng-if="messageContent.type == 'message'"></avatar>
+          <div class="message-container">
+            <div class="meta">
+              <span class="author" ng-if="messageContent.user">{{messageContent.user.name}}</span><span class="date">{{messageContent.created_at | relativeDate }}</span>
+            </div>
+            <div class="message" formatted-message="messageContent.message">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="message-form">
+        <form ng-submit="sendMessage(message)" form-submit-enter-key>
+          <textarea ng-model="message" placeholder="Press enter to send message" autofocus/>
+        </form>
+      </div>
+    </div>  
+  </div>
+  <!--
   <i class="fa fa-spin fa-refresh fa-5x" id="loader" style="display: none;"></i>
   <div class="container ng-scope">
     <hr>
@@ -53,5 +87,6 @@
       </div>
     </div>
   </div>
+  -->
   </div>
 </div>

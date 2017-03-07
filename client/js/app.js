@@ -28,7 +28,7 @@ app.run(function ($rootScope, $state) {
         if (toState.data && toState.data.requiredLogin)
             requiredLogin = true;
         // if yes and if this user is not logged in, redirect him to login page
-        if (requiredLogin && !$rootScope.authenticated) {
+        if (requiredLogin && $rootScope.authenticated==false) {
             event.preventDefault();
             $state.go('login');
         }
