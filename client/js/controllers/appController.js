@@ -1,4 +1,5 @@
 app.controller('appController', function ($scope, $resource, $http, $state, $rootScope, socket, Facebook) {
+	
 	$scope.initiate = function(){
 		$http.get('/api/home')
 		.success(function(data) {

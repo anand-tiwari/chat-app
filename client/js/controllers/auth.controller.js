@@ -1,6 +1,7 @@
 app.controller('AuthCtrl', function ($scope, AuthService, $state,$rootScope,$http, Facebook, $location) {
   	'use strict';
     $rootScope.authenticated = false;
+    
     function init(){
        // $rootScope.loginFun();
     };
@@ -153,6 +154,7 @@ app.controller('AuthCtrl', function ($scope, AuthService, $state,$rootScope,$htt
             //the parameter needed in that case is just the users facebook id
             params = {'facebook_id':args.facebook_id};
             //authenticateViaFacebook(params);
+            $rootScope.authenticated = true;
             $state.go('home');
         }
     });

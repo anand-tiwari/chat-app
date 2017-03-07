@@ -6,18 +6,36 @@ app.config(['$stateProvider', '$urlRouterProvider','$locationProvider', function
       .state('login', {
         url: '/',
         templateUrl: 'client/views/login.html',
-        controller: 'AuthCtrl'
+        controller: 'AuthCtrl',
+        data: {requiredLogin: false}
     })
       .state('home', {
         url: '/home',
         templateUrl: 'client/views/home.html',
-        controller: 'appController'
+        controller: 'appController',
+        data: {requiredLogin: true}
     });
     $locationProvider.html5Mode(true);
 }]);
 
 
-app.run(function ($rootScope) {
+app.run(function ($rootScope, $state) {
+
+/*On route change checking wheather user can access this route directly without login or not ??? ...*/
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
+        var requiredLogin = false;
+        // check if this state need login
+        if (toState.data && toState.data.requiredLogin)
+            requiredLogin = true;
+        // if yes and if this user is not logged in, redirect him to login page
+        if (requiredLogin && !$rootScope.authenticated) {
+            event.preventDefault();
+            $state.go('login');
+        }
+    });
+/*end of checking ..*/
+
+    // facebook login authentication ..
     window.fbAsyncInit = function () {
         FB.init({
             appId   : '1730977393831208',
